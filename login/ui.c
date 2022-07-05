@@ -93,7 +93,9 @@ static const char flags_help[] =
 
     "\n -l, --login-path=PATH      use PATH instead of " DEFAULT_LOGIN_PATH
 
-    "\n -u, --url-prefix=URL       use given URL prefix"
+    "\n -u, --prompt=PROMPT        print PROMPT before the challenge is "
+    "printed (default: '" DEFAULT_PROMPT
+    "')"
 
     "\n -s, --disable-syslog       suppress syslog logging (default: false)"
 
@@ -119,7 +121,7 @@ static const struct option long_options[] = {
     {"login-path", required_argument, 0, 'l'},
     {"disable-syslog", no_argument, 0, 's'},
     {"timeout", required_argument, 0, 't'},
-    {"url-prefix", required_argument, 0, 'u'},
+    {"prompt", required_argument, 0, 'p'},
     {"verbose", no_argument, 0, 'v'},
     {"print-secrets", no_argument, 0, 'I'},
     {"ephemeral-key", required_argument, 0, 'K'},
@@ -132,7 +134,7 @@ int parse_args(glome_login_config_t* config, int argc, char* argv[]) {
 
   // Setting defaults.
   config->login_path = DEFAULT_LOGIN_PATH;
-  config->url_prefix = NULL;
+  config->prompt = DEFAULT_PROMPT;
   config->auth_delay_sec = DEFAULT_AUTH_DELAY;
   config->input_timeout_sec = DEFAULT_INPUT_TIMEOUT;
   config->options = SYSLOG;
@@ -159,6 +161,10 @@ int parse_args(glome_login_config_t* config, int argc, char* argv[]) {
         status = glome_login_assign_config_option(config, "service",
                                                   "login-path", optarg);
         break;
+      case 'p':
+        status = glome_login_assign_config_option(config, "default", "prompt",
+                                                  optarg);
+        break;
       case 's':
         status = glome_login_assign_config_option(config, "default",
                                                   "disable-syslog", optarg);
@@ -166,10 +172,6 @@ int parse_args(glome_login_config_t* config, int argc, char* argv[]) {
       case 't':
         status = glome_login_assign_config_option(config, "default", "timeout",
                                                   optarg);
-        break;
-      case 'u':
-        status = glome_login_assign_config_option(config, "default",
-                                                  "url-prefix", optarg);
         break;
       case 'v':
         status = glome_login_assign_config_option(config, "default", "verbose",
