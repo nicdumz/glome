@@ -254,9 +254,7 @@ static status_t assign_service_option(glome_login_config_t *config,
   } else if (strcmp(key, "key-version") == 0) {
     return assign_key_version_option(config, val);
   } else if (strcmp(key, "prompt") == 0) {
-    if (config->prompt == NULL) {
-      return assign_string_option(&config->prompt, val);
-    }
+    return assign_string_option(&config->prompt, val);
   }
 
   return status_createf("ERROR: unrecognized service option: %s", key);
