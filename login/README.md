@@ -98,7 +98,7 @@ PAM module uses error tags to communicate errors in the syslog messages.
 Dockerfile included in the repository creates a Docker image that can be used
 to test `glome-login` and the PAM module.
 
-## Instalation
+## Installation
 
 Docker image for GLOME needs to be built first using the following command:
 
